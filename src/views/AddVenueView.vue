@@ -6,7 +6,7 @@
       class="border-black h-10 w-80 rounded-md border-solid border-spacing-4 border-2"
       ref="venueInput"
       type="text"
-      placeholder="Enter venue name"
+      placeholder="Enter venue name..."
     />
   </div>
 
