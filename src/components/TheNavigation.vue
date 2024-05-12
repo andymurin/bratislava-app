@@ -2,10 +2,7 @@
   <nav class="sticky flex top-0 bg-gradient-to-r from-amber-400 to-amber-600">
     <NavigationLogo />
 
-    <NavigationMobileButton
-      @toggle-mobile-menu="showMobileMenu"
-      :isMobileMenuActive="isMobileMenuActive"
-    />
+    <NavigationMobileButton @toggle-mobile-menu="showMobileMenu" />
 
     <MobileMenu v-if="isMobileMenuActive" />
 
@@ -28,15 +25,14 @@ export default {
     NavigationMobileButton,
     MobileMenu,
   },
-  data() {
-    return {
-      isMobileMenuActive: false,
-    };
-  },
   methods: {
     showMobileMenu() {
-      this.isMobileMenuActive = !this.isMobileMenuActive;
-      console.log(this.isMobileMenuActive);
+      this.$store.commit("showMobileMenu");
+    },
+  },
+  computed: {
+    isMobileMenuActive() {
+      return this.$store.state.isMobileMenuActive;
     },
   },
 };

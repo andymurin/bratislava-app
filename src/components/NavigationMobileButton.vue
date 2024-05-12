@@ -1,6 +1,6 @@
 <template>
   <div class="block md:hidden ml-auto pr-4 my-auto cursor-pointer">
-    <div @click="toggleMobileMenu">
+    <div @click="showMobileMenu">
       <div
         class="bg-white top-0 rounded-full w-8 h-1"
         :class="{
@@ -28,10 +28,14 @@
 
 <script>
 export default {
-  props: { isMobileMenuActive: Boolean },
   methods: {
-    toggleMobileMenu() {
-      this.$emit("toggle-mobile-menu");
+    showMobileMenu() {
+      this.$store.commit("showMobileMenu");
+    },
+  },
+  computed: {
+    isMobileMenuActive() {
+      return this.$store.state.isMobileMenuActive;
     },
   },
 };

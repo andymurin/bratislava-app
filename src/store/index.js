@@ -1,9 +1,17 @@
 import { createStore } from "vuex";
 
 export default createStore({
-  state: {},
+  state() {
+    return {
+      isMobileMenuActive: false,
+    };
+  },
   getters: {},
-  mutations: {},
+  mutations: {
+    showMobileMenu(state) {
+      state.isMobileMenuActive = !state.isMobileMenuActive;
+    },
+  },
   actions: {},
   modules: {},
 });
