@@ -11,11 +11,22 @@
   </div>
 
   <p>
-    {{ value1 }}
+    {{ selectedVenue.name }}
   </p>
+  <p>
+    {{ selectedVenue.vicinity }}
+  </p>
+  <img :src="selectedVenue.icon" alt="" srcset="" />
+  <button
+    @click="submitVenue"
+    class="border-black h-10 w-30 rounded-md border-solid border-spacing-4 border-2 bg-gradient-to-r from-amber-400 to-amber-600"
+  >
+    Submit venue
+  </button>
 </template>
 
 <script>
+import axios from "axios";
 import InputText from "primevue/inputtext";
 export default {
   components: {
@@ -24,8 +35,18 @@ export default {
   data() {
     return {
       value1: null,
-      value2: null,
+      selectedVenue: "",
     };
+  },
+  methods: {
+    submitVenue() {
+      axios.post(
+        "https://bratislavska-pivaren-9bfe5-default-rtdb.europe-west1.firebasedatabase.app/venues.json",
+        { name: this.selectedVenue.name, adress: this.selectedVenue.vicinity }
+      );
+      this.selectedVenue = {};
+      this.$refs.venueInput = "";
+    },
   },
   mounted() {
     const venueAutocomplete = new google.maps.places.Autocomplete(
@@ -35,13 +56,12 @@ export default {
           new google.maps.LatLng(48.14816, 17.10674)
         ),
         componentRestrictions: { country: "sk" },
-        // types: ["(bar)", "(cafe)", "(restaurant)", "(night_club)"],
         types: ["bar", "cafe", "restaurant", "night_club"],
       }
     );
-
     venueAutocomplete.addListener("place_changed", () => {
       console.log(venueAutocomplete.getPlace());
+      this.selectedVenue = venueAutocomplete.getPlace();
     });
   },
 };
