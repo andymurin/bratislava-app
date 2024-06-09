@@ -1,8 +1,8 @@
 <template>
   <nav class="sticky flex top-0 bg-gradient-to-r from-amber-400 to-amber-600">
-    <NavigationLogo />
+    <NavigationLogo @click="hideMobieMenu" />
 
-    <NavigationMobileButton @toggle-mobile-menu="showMobileMenu" />
+    <NavigationMobileButton />
 
     <MobileMenu v-if="isMobileMenuActive" />
 
@@ -26,8 +26,11 @@ export default {
     MobileMenu,
   },
   methods: {
-    showMobileMenu() {
-      this.$store.commit("showMobileMenu");
+    toggleMobileMenu() {
+      this.$store.commit("toggleMobileMenu");
+    },
+    hideMobieMenu() {
+      this.$store.commit("hideMobileMenu");
     },
   },
   computed: {

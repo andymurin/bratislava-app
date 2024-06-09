@@ -1,7 +1,7 @@
 <template>
   <div
     class="absolute bg-gradient-to-l top-28 from-amber-400 to-amber-600 w-full left-0"
-    @click="showMobileMenu"
+    @click="toggleMobileMenu"
   >
     <NavigationItem pathName="addVenue" label="Add venue" :mobile="true" />
     <NavigationItem pathName="venuesView" label="Venues" :mobile="true" />
@@ -13,8 +13,8 @@ import NavigationItem from "./NavigationItem.vue";
 export default {
   components: { NavigationItem },
   methods: {
-    showMobileMenu() {
-      this.$store.commit("showMobileMenu");
+    toggleMobileMenu() {
+      this.$store.commit("toggleMobileMenu");
     },
   },
 };

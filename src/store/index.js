@@ -8,8 +8,11 @@ export default createStore({
   },
   getters: {},
   mutations: {
-    showMobileMenu(state) {
+    toggleMobileMenu(state) {
       state.isMobileMenuActive = !state.isMobileMenuActive;
+    },
+    hideMobileMenu(state) {
+      state.isMobileMenuActive = false;
     },
   },
   actions: {},

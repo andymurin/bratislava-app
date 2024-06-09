@@ -1,6 +1,6 @@
 <template>
   <div class="block md:hidden ml-auto pr-4 my-auto cursor-pointer">
-    <div @click="showMobileMenu">
+    <div @click="toggleMobileMenu">
       <div
         class="bg-white top-0 rounded-full w-8 h-1"
         :class="{
@@ -29,8 +29,8 @@
 <script>
 export default {
   methods: {
-    showMobileMenu() {
-      this.$store.commit("showMobileMenu");
+    toggleMobileMenu() {
+      this.$store.commit("toggleMobileMenu");
     },
   },
   computed: {
