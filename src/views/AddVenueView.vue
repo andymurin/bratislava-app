@@ -42,7 +42,14 @@ export default {
     submitVenue() {
       axios.post(
         "https://bratislavska-pivaren-9bfe5-default-rtdb.europe-west1.firebasedatabase.app/venues.json",
-        { name: this.selectedVenue.name, adress: this.selectedVenue.vicinity }
+        {
+          name: this.selectedVenue.name,
+          adress: this.selectedVenue.vicinity,
+          openingHours: this.selectedVenue.opening_hours.periods,
+          id: this.selectedVenue.place_id,
+          type: this.selectedVenue.types[0],
+          web: this.selectedVenue.website,
+        }
       );
       this.selectedVenue = {};
       this.$refs.venueInput = "";
