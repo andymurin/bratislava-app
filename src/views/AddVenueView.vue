@@ -34,7 +34,6 @@ export default {
   },
   data() {
     return {
-      value1: null,
       selectedVenue: "",
     };
   },
@@ -52,7 +51,7 @@ export default {
         }
       );
       this.selectedVenue = {};
-      this.$refs.venueInput = "";
+      this.$refs.venueInput.value = "";
     },
   },
   mounted() {
