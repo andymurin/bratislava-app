@@ -1,28 +1,30 @@
 <template>
-  <h1>Add venue</h1>
+  <BaseCard class="flex flex-col items-center gap-2">
+    <h1 class="text-2xl font-semibold mb-4">Find your favourite venue</h1>
+    <div class="flex flex-wrap justify-center gap-3 border-solid">
+      <input
+        class="border-black h-10 w-80 rounded-md border-solid border-spacing-4 border-2"
+        ref="venueInput"
+        type="text"
+        placeholder="Enter venue name..."
+      />
+    </div>
 
-  <div class="flex flex-wrap justify-center gap-3 border-solid">
-    <input
-      class="border-black h-10 w-80 rounded-md border-solid border-spacing-4 border-2"
-      ref="venueInput"
-      type="text"
-      placeholder="Enter venue name..."
-    />
-  </div>
-
-  <p>
-    {{ selectedVenue.name }}
-  </p>
-  <p>
-    {{ selectedVenue.vicinity }}
-  </p>
-  <img :src="selectedVenue.icon" alt="" srcset="" />
-  <button
-    @click="submitVenue"
-    class="border-black h-10 w-30 rounded-md border-solid border-spacing-4 border-2 bg-gradient-to-r from-amber-400 to-amber-600"
-  >
-    Submit venue
-  </button>
+    <p>
+      {{ selectedVenue.name }}
+    </p>
+    <p>
+      {{ selectedVenue.vicinity }}
+    </p>
+    <img :src="selectedVenue.icon" alt="" srcset="" />
+    <BaseButton
+      mode="outline"
+      @click="submitVenue"
+      class="my-8 max-w-max h-full"
+    >
+      Add to favourites
+    </BaseButton>
+  </BaseCard>
 </template>
 
 <script>

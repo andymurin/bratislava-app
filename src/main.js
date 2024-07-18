@@ -3,14 +3,12 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import "./input.css";
-import PrimeVue from "primevue/config";
-import Lara from "./presets/lara";
+import BaseCard from "./components/base/BaseCard.vue";
+import BaseButton from "./components/base/BaseButton.vue";
 
 createApp(App)
   .use(store)
   .use(router)
-  .use(PrimeVue, {
-    unstyled: true,
-    pt: Lara,
-  })
+  .component("BaseCard", BaseCard)
+  .component("BaseButton", BaseButton)
   .mount("#app");

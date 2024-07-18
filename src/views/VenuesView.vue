@@ -1,37 +1,31 @@
 <template>
-  <h1>Venues view</h1>
-  <div>
-    <ul v-for="venue in venues">
-      <li>
-        <h2>{{ venue.name }}</h2>
+  <ul v-if="venues.length">
+    <li v-for="venue in venues" :key="venue.id">
+      <BaseCard>
+        <h2 class="text-lg font-semibold">{{ venue.name }}</h2>
         <p>{{ venue.adress }}</p>
-        <br />
-      </li>
-    </ul>
-  </div>
+      </BaseCard>
+    </li>
+  </ul>
+  <p v-else="">Loading venues...</p>
 </template>
 
 <script>
-import axios from "axios";
+import { mapActions, mapState } from "vuex";
+
 export default {
   data() {
-    return {
-      venues: [],
-    };
+    return {};
+  },
+  computed: {
+    ...mapState(["venues"]),
   },
   methods: {
-    async fetchData() {
-      let data;
-      await axios
-        .get(
-          "https://bratislavska-pivaren-9bfe5-default-rtdb.europe-west1.firebasedatabase.app/venues.json"
-        )
-        .then((res) => (data = res.data));
-      this.venues = Object.values(data);
-      console.log(JSON.parse(JSON.stringify(this.venues)));
-    },
+    ...mapActions(["fetchData"]),
   },
-  mounted() {
+  async created() {
+    // if (this.venues.length === 0) this.$store.dispatch("fetchData");
+
     this.fetchData();
   },
 };
