@@ -9,14 +9,15 @@
         placeholder="Enter venue name..."
       />
     </div>
-
-    <p>
-      {{ selectedVenue.name }}
-    </p>
-    <p>
-      {{ selectedVenue.vicinity }}
-    </p>
-    <img :src="selectedVenue.icon" alt="" srcset="" />
+    <div v-if="selectedVenue">
+      <p>
+        {{ selectedVenue.name }}
+      </p>
+      <p>
+        {{ selectedVenue.vicinity }}
+      </p>
+      <img :src="selectedVenue.icon" alt="" srcset="" />
+    </div>
     <BaseButton
       mode="outline"
       @click="submitVenue"
