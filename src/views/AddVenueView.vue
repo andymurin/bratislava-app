@@ -1,7 +1,7 @@
 <template>
   <BaseCard class="flex flex-col items-center gap-2">
     <h1 class="text-2xl font-semibold mb-4">Find your favourite venue</h1>
-    <div class="flex flex-wrap justify-center gap-3 border-solid">
+    <div class="flex flex-wrap justify-center gap-6 border-solid">
       <input
         class="border-black h-10 w-80 rounded-md border-solid border-spacing-4 border-2"
         ref="venueInput"
@@ -9,15 +9,16 @@
         placeholder="Enter venue name..."
       />
     </div>
-    <div v-if="selectedVenue">
-      <p>
-        {{ selectedVenue.name }}
-      </p>
-      <p>
-        {{ selectedVenue.vicinity }}
-      </p>
-      <img :src="selectedVenue.icon" alt="" srcset="" />
-    </div>
+
+    <p>
+      {{ selectedVenue.name }}
+    </p>
+    <p>
+      {{ selectedVenue.vicinity }}
+    </p>
+    <a v-if="selectedVenue" :href="selectedVenue.website" class="no-underline">
+      Website
+    </a>
     <BaseButton
       mode="outline"
       @click="submitVenue"
@@ -53,7 +54,7 @@ export default {
           web: this.selectedVenue.website,
         }
       );
-      this.selectedVenue = null;
+      this.selectedVenue = {};
       this.$refs.venueInput.value = "";
     },
   },
