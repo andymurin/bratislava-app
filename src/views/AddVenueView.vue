@@ -53,7 +53,7 @@ export default {
           web: this.selectedVenue.website,
         }
       );
-      this.selectedVenue = {};
+      this.selectedVenue = null;
       this.$refs.venueInput.value = "";
     },
   },
