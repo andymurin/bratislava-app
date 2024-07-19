@@ -21,6 +21,7 @@ export default createStore({
       state.isMobileMenuActive = false;
     },
     setVenues(state, venues) {
+      if (!state.venues) return;
       state.venues = venues;
     },
   },
@@ -30,7 +31,7 @@ export default createStore({
         const response = await axios.get(
           "https://bratislavska-pivaren-9bfe5-default-rtdb.europe-west1.firebasedatabase.app/venues.json"
         );
-        const venues = Object.values(response.data);
+        const venues = response.data ? Object.values(response.data) : null;
         commit("setVenues", venues);
         console.log(JSON.parse(JSON.stringify(venues)));
       } catch (err) {

@@ -7,8 +7,8 @@
     <MobileMenu v-if="isMobileMenuActive" />
 
     <div class="hidden flex-1 md:flex items-center justify-end">
-      <NavigationItem pathName="addVenue" label="Add venue" />
-      <NavigationItem pathName="venuesView" label="Venues" />
+      <NavigationItem pathName="addVenue" label="Find venue" />
+      <NavigationItem pathName="venuesView" label="Favourite venues" />
     </div>
   </nav>
 </template>

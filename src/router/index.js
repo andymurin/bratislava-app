@@ -22,6 +22,13 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "venuesView" */ "../views/VenuesView.vue"),
   },
+  {
+    path: "/venue/:id",
+    name: "VenueDetail",
+    props: true,
+    component: () =>
+      import(/* webackChunkName: "venueDetail" */ "../views/VenueDetail.vue"),
+  },
 ];
 
 const router = createRouter({

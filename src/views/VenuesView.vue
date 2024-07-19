@@ -1,13 +1,19 @@
 <template>
-  <ul v-if="venues.length">
+  <ul v-if="venues?.length">
     <li v-for="venue in venues" :key="venue.id">
       <BaseCard>
-        <h2 class="text-lg font-semibold">{{ venue.name }}</h2>
-        <p>{{ venue.adress }}</p>
+        <router-link :to="`/venue/${venue.id}`">
+          <h2 class="text-lg font-semibold">{{ venue.name }}</h2>
+          <p>{{ venue.address }}</p>
+        </router-link>
       </BaseCard>
     </li>
   </ul>
-  <p v-else="">Loading venues...</p>
+  <p v-else-if="venues === null">
+    No saved venues. Find your favourite venue
+    <router-link :to="{ name: addVenue }">here</router-link>
+  </p>
+  <p v-else>Loading venues...</p>
 </template>
 
 <script>
