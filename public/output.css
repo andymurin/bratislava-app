@@ -806,6 +806,10 @@ html {
   margin: auto;
 }
 
+.m-4{
+  margin: 1rem;
+}
+
 .mx-0{
   margin-left: 0px;
   margin-right: 0px;
@@ -1094,6 +1098,14 @@ html {
 
 .mt-6{
   margin-top: 1.5rem;
+}
+
+.mt-4{
+  margin-top: 1rem;
+}
+
+.mt-10{
+  margin-top: 2.5rem;
 }
 
 .box-border{
