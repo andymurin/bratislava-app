@@ -9,10 +9,14 @@
       </BaseCard>
     </li>
   </ul>
-  <p v-else-if="venues === null">
-    No saved venues. Find your favourite venue
-    <router-link :to="{ name: addVenue }">here</router-link>
-  </p>
+  <BaseCard class="flex justify-center" v-else-if="venues === null">
+    <h1 class="text-2xl font-semibold my-5">
+      No saved venues. Find your favourite venue
+      <router-link to="/add-venue" class="hover:text-amber-600"
+        >here</router-link
+      >!
+    </h1>
+  </BaseCard>
   <p v-else>Loading venues...</p>
 </template>
 

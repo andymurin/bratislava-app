@@ -27,7 +27,7 @@ const routes = [
     name: "VenueDetail",
     props: true,
     component: () =>
-      import(/* webackChunkName: "venueDetail" */ "../views/VenueDetail.vue"),
+      import(/* webpackChunkName: "venueDetail" */ "../views/VenueDetail.vue"),
   },
 ];
 
