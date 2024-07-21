@@ -78,7 +78,7 @@
       </BaseButton>
     </section>
     <h2 v-else class="font-semibold text-xl">
-      Venue has been deleted from favourites.
+      Venue has been removed from favourites.
     </h2>
   </BaseCard>
 </template>
