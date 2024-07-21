@@ -8,13 +8,21 @@
         </router-link>
       </BaseCard>
     </li>
+    <li>
+      <BaseCard
+        ><h2 class="text-lg font-semibold">
+          Didn't find your favourite venue? Try
+          <router-link to="/add-venue" class="text-amber-600">here</router-link
+          >!
+        </h2></BaseCard
+      >
+    </li>
   </ul>
+
   <BaseCard class="flex justify-center" v-else-if="venues === null">
     <h1 class="text-2xl font-semibold my-5">
       No saved venues. Find your favourite venue
-      <router-link to="/add-venue" class="hover:text-amber-600"
-        >here</router-link
-      >!
+      <router-link to="/add-venue" class="text-amber-600">here</router-link>!
     </h1>
   </BaseCard>
   <p v-else>Loading venues...</p>

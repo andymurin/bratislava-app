@@ -1,31 +1,46 @@
 <template>
   <BaseCard class="flex flex-col items-center gap-2 mb-0">
+    <div class="text-2xl font-bold self-start">
+      <RouterLink to="/venues">&larr;</RouterLink>
+    </div>
     <h2 v-if="isLoading" class="font-semibold text-xl">Loading venue...</h2>
     <section
-      v-if="shownVenue && !isVenueDeleted"
+      v-else-if="shownVenue && !isVenueDeleted"
       class="flex flex-col items-center gap-2 mb-0"
     >
       <h2 class="font-semibold text-xl">{{ shownVenue.name }}</h2>
       <p>{{ shownVenue.type }}</p>
       <p>{{ shownVenue.address }}</p>
-      <p>Otvaracky pribudnu o chvilu</p>
-      <span>
-        <p v-if="currentOpeningHours">
-          {{
-            `${currentDayStr}: ${currentOpeningHours.open.hours}:${
-              currentOpeningHours.open.minutes
-            }${currentOpeningHours.open.minutes === 0 && "0"} - ${
-              currentOpeningHours.close.hours
-            }:${currentOpeningHours.close.minutes}${
-              currentOpeningHours.close.minutes === 0 && "0"
-            }`
-          }}
+      <div>
+        <span v-if="!shownMore">
+          <p v-if="currentOpeningHours">
+            {{
+              `${daysStr[currentDay]}: ${currentOpeningHours.open.hours}:${
+                currentOpeningHours.open.minutes
+              }${currentOpeningHours.open.minutes === 0 ? "0" : ""} - ${
+                currentOpeningHours.close.hours
+              }:${currentOpeningHours.close.minutes}${
+                currentOpeningHours.close.minutes === 0 ? "0" : ""
+              }`
+            }}
+          </p>
+          <p v-else>{{ `${currentDayStr}: Closed` }}</p>
+        </span>
+        <ul v-else>
+          <li v-for="(hours, index) in shownVenue.openingHours" :key="index">
+            {{ daysStr[index] }}: {{ hours.open.hours }}:{{ hours.open.minutes
+            }}{{ hours.open.minutes === 0 ? "0" : "" }} -
+            {{ hours.close.hours }}:{{ hours.close.minutes
+            }}{{ hours.close.minutes === 0 ? "0" : "" }}
+          </li>
+        </ul>
+        <p
+          class="font-light text-sm text-amber-600 place-self-end cursor-pointer"
+          @click="toggleShowMore"
+        >
+          {{ shownMore ? "Show less..." : "Show more..." }}
         </p>
-        <p v-else>{{ `${currentDayStr}: Closed` }}</p>
-        <p class="font-light text-sm hover:text-amber-600 place-self-end">
-          Show more...
-        </p>
-      </span>
+      </div>
       <a
         v-if="shownVenue.web"
         :href="shownVenue.web"
@@ -45,7 +60,15 @@
           Website
         </span>
       </a>
-      <p>Tu bude volaka mapa ak boh da</p>
+      <iframe
+        :width="iframeWidth"
+        height="250"
+        style="border: 0"
+        loading="lazy"
+        allowfullscreen
+        referrerpolicy="no-referrer-when-downgrade"
+        :src="`https://www.google.com/maps/embed/v1/place?key=AIzaSyBjf_vWS50mo0nqMnGDK-gvScDWSPpQQo8&q=place_id:${shownVenue.id}`"
+      ></iframe>
       <BaseButton
         mode="outline"
         class="my-8 max-w-max h-full"
@@ -72,11 +95,16 @@ export default {
       currentDay: new Date().getDay(),
       isVenueDeleted: false,
       isLoading: false,
+      shownMore: false,
+      windowWidth: window.innerWidth,
     };
   },
   computed: {
-    currentDayStr() {
-      const days = [
+    iframeWidth() {
+      return this.windowWidth > 450 ? 650 : 350;
+    },
+    daysStr() {
+      return [
         "Sunday",
         "Monday",
         "Tuesday",
@@ -85,7 +113,6 @@ export default {
         "Friday",
         "Saturday",
       ];
-      return days[this.currentDay];
     },
     currentOpeningHours() {
       return this.shownVenue.openingHours.find(
@@ -94,6 +121,12 @@ export default {
     },
   },
   methods: {
+    toggleShowMore() {
+      this.shownMore = !this.shownMore;
+    },
+    onResize() {
+      this.windowHeight = window.innerHeight;
+    },
     removeVenue() {
       try {
         axios
@@ -131,6 +164,15 @@ export default {
       immediate: true,
       handler: "updateShownVenue",
     },
+  },
+  mounted() {
+    this.$nextTick(() => {
+      window.addEventListener("resize", this.onResize);
+    });
+  },
+
+  beforeDestroy() {
+    window.removeEventListener("resize", this.onResize);
   },
 };
 </script>

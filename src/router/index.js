@@ -32,8 +32,16 @@ const routes = [
 ];
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHistory(),
+  // history: createWebHistory(process.env.BASE_URL),
   routes,
+});
+
+router.beforeEach((to, from, next) => {
+  if (to.path.endsWith(".css")) {
+    return next(false);
+  }
+  next();
 });
 
 export default router;

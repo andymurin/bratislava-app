@@ -1844,6 +1844,10 @@ html {
           user-select: none;
 }
 
+.resize{
+  resize: both;
+}
+
 .list-none{
   list-style-type: none;
 }
@@ -1910,6 +1914,10 @@ html {
   justify-content: space-between;
 }
 
+.justify-items-start{
+  justify-items: start;
+}
+
 .gap-1{
   gap: 0.25rem;
 }
@@ -1924,6 +1932,10 @@ html {
 
 .place-self-end{
   place-self: end;
+}
+
+.self-start{
+  align-self: flex-start;
 }
 
 .self-center{
@@ -3521,6 +3533,11 @@ html {
 
 .text-white\/80{
   color: rgb(255 255 255 / 0.8);
+}
+
+.text-amber-600{
+  --tw-text-opacity: 1;
+  color: rgb(217 119 6 / var(--tw-text-opacity));
 }
 
 .underline{
