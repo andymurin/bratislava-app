@@ -1882,6 +1882,10 @@ html {
   flex-wrap: nowrap;
 }
 
+.content-between{
+  align-content: space-between;
+}
+
 .items-start{
   align-items: flex-start;
 }
@@ -1914,6 +1918,10 @@ html {
   justify-content: space-between;
 }
 
+.justify-around{
+  justify-content: space-around;
+}
+
 .justify-items-start{
   justify-items: start;
 }
@@ -1928,6 +1936,10 @@ html {
 
 .gap-4{
   gap: 1rem;
+}
+
+.gap-10{
+  gap: 2.5rem;
 }
 
 .place-self-end{
