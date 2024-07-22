@@ -24,11 +24,12 @@
               }`
             }}
           </p>
-          <p v-else>{{ `${currentDayStr}: Closed` }}</p>
+          <p v-else>{{ `${daysStr[currentDay]}: Closed` }}</p>
         </span>
         <ul v-else>
-          <li v-for="(hours, index) in shownVenue.openingHours" :key="index">
-            {{ daysStr[index] }}: {{ hours.open.hours }}:{{ hours.open.minutes
+          <li v-for="hours in shownVenue.openingHours" :key="hours.open.day">
+            {{ daysStr[hours.open.day] }}: {{ hours.open.hours }}:{{
+              hours.open.minutes
             }}{{ hours.open.minutes === 0 ? "0" : "" }} -
             {{ hours.close.hours }}:{{ hours.close.minutes
             }}{{ hours.close.minutes === 0 ? "0" : "" }}
@@ -44,6 +45,8 @@
       <a
         v-if="shownVenue.web"
         :href="shownVenue.web"
+        target="_blank"
+        rel="noopener noreferrer"
         class="no-underline hover:text-amber-600"
       >
         <span class="flex gap-1">

@@ -24,6 +24,8 @@
           <a
             v-if="selectedVenue.website"
             :href="selectedVenue.website"
+            target="_blank"
+            rel="noopener noreferrer"
             class="no-underline hover:text-amber-600"
           >
             <span class="flex gap-1">
