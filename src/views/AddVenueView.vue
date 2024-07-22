@@ -43,11 +43,7 @@
             </span>
           </a>
         </BaseCard>
-        <BaseButton
-          mode="outline"
-          @click="submitVenue"
-          class="my-8 max-w-max h-full"
-        >
+        <BaseButton class="my-8 max-w-max h-full" @click="submitVenue">
           Add to favourites
         </BaseButton>
       </section>
@@ -56,7 +52,7 @@
       Venue has been added to favourites!
     </h2>
   </BaseCard>
-  <BaseCard v-if="!newVenueAdded" class="flex justify-center"
+  <BaseCard v-if="!newVenueAdded" class="flex justify-center mt-20"
     ><h2 class="text-lg font-semibold">
       See the list of your favourite venues
       <router-link to="/venues" class="text-amber-600">here</router-link>!
@@ -93,9 +89,10 @@ export default {
         );
         this.newVenueAdded = true;
         setTimeout(() => {
-          this.selectedVenue = null;
-          this.$refs.venueInput.value = "";
+          // this.selectedVenue = null;
+          // this.$refs.venueInput.value = "";
           this.newVenueAdded = false;
+          this.$router.push(`/venue/${this.selectedVenue.place_id}`);
         }, 2000);
       } catch (err) {
         console.error("Something went went wrong.", err);

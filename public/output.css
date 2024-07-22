@@ -886,6 +886,11 @@ html {
   margin-bottom: auto;
 }
 
+.my-3{
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
 .-mb-\[10px\]{
   margin-bottom: -10px;
 }
@@ -1068,6 +1073,22 @@ html {
 
 .mt-\[2px\]{
   margin-top: 2px;
+}
+
+.mt-auto{
+  margin-top: auto;
+}
+
+.mt-10{
+  margin-top: 2.5rem;
+}
+
+.mt-40{
+  margin-top: 10rem;
+}
+
+.mt-20{
+  margin-top: 5rem;
 }
 
 .box-border{
@@ -1547,6 +1568,10 @@ html {
   max-width: max-content;
 }
 
+.max-w-4xl{
+  max-width: 56rem;
+}
+
 .flex-1{
   flex: 1 1 0%;
 }
@@ -1970,6 +1995,10 @@ html {
   overscroll-behavior: contain;
 }
 
+.overscroll-none{
+  overscroll-behavior: none;
+}
+
 .scroll-smooth{
   scroll-behavior: smooth;
 }
@@ -2044,6 +2073,10 @@ html {
 
 .rounded-none{
   border-radius: 0px;
+}
+
+.rounded-3xl{
+  border-radius: 1.5rem;
 }
 
 .rounded-b-lg{
@@ -3094,6 +3127,11 @@ html {
 .py-\[0\.9375rem\]{
   padding-top: 0.9375rem;
   padding-bottom: 0.9375rem;
+}
+
+.py-6{
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
 }
 
 .pb-0{
@@ -4396,6 +4434,14 @@ html {
   margin-top: 0.5rem;
 }
 
+.first\:mt-6:first-child{
+  margin-top: 1.5rem;
+}
+
+.first\:mt-20:first-child{
+  margin-top: 5rem;
+}
+
 .first\:rounded-l-lg:first-child{
   border-top-left-radius: 0.5rem;
   border-bottom-left-radius: 0.5rem;
@@ -4530,6 +4576,10 @@ html {
   cursor: pointer;
 }
 
+.hover\:border-0:hover{
+  border-width: 0px;
+}
+
 .hover\:border-blue-600:hover{
   --tw-border-opacity: 1;
   border-color: rgb(37 99 235 / var(--tw-border-opacity));
@@ -4586,6 +4636,11 @@ html {
 
 .hover\:border-surface-800:hover{
   border-color: rgb(var(--surface-800));
+}
+
+.hover\:border-white:hover{
+  --tw-border-opacity: 1;
+  border-color: rgb(255 255 255 / var(--tw-border-opacity));
 }
 
 .hover\:bg-black\/50:hover{
@@ -4740,6 +4795,11 @@ html {
 
 .hover\:bg-white\/10:hover{
   background-color: rgb(255 255 255 / 0.1);
+}
+
+.hover\:bg-amber-600:hover{
+  --tw-bg-opacity: 1;
+  background-color: rgb(217 119 6 / var(--tw-bg-opacity));
 }
 
 .hover\:bg-opacity-50:hover{
@@ -4963,6 +5023,16 @@ html {
 
 .focus-visible\:ring-primary-500:focus-visible{
   --tw-ring-color: rgb(var(--primary-500));
+}
+
+.active\:bg-amber-600:active{
+  --tw-bg-opacity: 1;
+  background-color: rgb(217 119 6 / var(--tw-bg-opacity));
+}
+
+.active\:text-white:active{
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 
 .group:hover .group-hover\:opacity-100{
