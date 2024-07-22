@@ -5,7 +5,7 @@
     </div>
     <h2 v-if="isLoading" class="font-semibold text-xl">Loading venue...</h2>
     <section
-      v-else-if="shownVenue && !isVenueDeleted"
+      v-else-if="!isVenueDeleted"
       class="flex flex-col items-center gap-2 mb-0"
     >
       <h2 class="font-semibold text-xl">{{ shownVenue.name }}</h2>
@@ -97,7 +97,7 @@ export default {
       shownVenue: null,
       currentDay: new Date().getDay(),
       isVenueDeleted: false,
-      isLoading: false,
+      isLoading: true,
       shownMore: false,
       windowWidth: window.innerWidth,
     };
@@ -150,9 +150,9 @@ export default {
     },
     async updateShownVenue() {
       this.isLoading = true;
-      if (this.$store.state.venues.length === 0) {
-        await this.$store.dispatch("fetchData");
-      }
+
+      await this.$store.dispatch("fetchData");
+
       this.shownVenue = this.$store.state.venues.find(
         (venue) => venue.id === this.id
       );
@@ -161,6 +161,7 @@ export default {
   },
   async created() {
     await this.updateShownVenue();
+    console.log("fetched");
   },
   watch: {
     id: {

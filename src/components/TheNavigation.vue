@@ -1,7 +1,5 @@
 <template>
-  <nav
-    class="sticky flex top-0 bg-gradient-to-r from-amber-400 to-amber-600 overscroll-none"
-  >
+  <nav class="sticky flex top-0 bg-gradient-to-r from-amber-400 to-amber-600">
     <NavigationLogo @click="hideMobieMenu" />
 
     <NavigationMobileButton />

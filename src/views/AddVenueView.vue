@@ -61,6 +61,8 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 import axios from "axios";
 import InputText from "primevue/inputtext";
 export default {
