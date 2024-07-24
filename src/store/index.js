@@ -6,6 +6,7 @@ export default createStore({
     return {
       isMobileMenuActive: false,
       venues: [],
+      apiKey: process.env.VUE_APP_GOOGLE_API_KEY,
     };
   },
   getters: {

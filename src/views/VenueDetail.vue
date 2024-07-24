@@ -70,7 +70,7 @@
         loading="lazy"
         allowfullscreen
         referrerpolicy="no-referrer-when-downgrade"
-        :src="`https://www.google.com/maps/embed/v1/place?key=AIzaSyBjf_vWS50mo0nqMnGDK-gvScDWSPpQQo8&q=place_id:${shownVenue.id}`"
+        :src="`https://www.google.com/maps/embed/v1/place?key=${apiKey}&q=place_id:${shownVenue.id}`"
       ></iframe>
       <BaseButton
         mode="outline"
@@ -100,6 +100,7 @@ export default {
       isLoading: true,
       shownMore: false,
       windowWidth: window.innerWidth,
+      apiKey: process.env.VUE_APP_GOOGLE_API_KEY,
     };
   },
   computed: {

@@ -29,6 +29,11 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "venueDetail" */ "../views/VenueDetail.vue"),
   },
+  {
+    path: "/auth",
+    component: () =>
+      import(/* webpackChunkName: "UserAuth" */ "../views/Auth/UserAuth.vue"),
+  },
   { path: "/:catchAll(.*)", redirect: "/add-venue" },
 ];
 
