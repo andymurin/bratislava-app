@@ -7,11 +7,13 @@
       <h1 class="text-2xl font-semibold mb-4">Find your favourite venue</h1>
       <div class="flex flex-wrap justify-center border-solid">
         <input
+          v-show="googleMapsLoaded"
           class="border-black h-10 w-80 rounded-md border-solid border-spacing-4 border-2"
           ref="venueInput"
           type="text"
           placeholder="Start typing..."
         />
+        <p v-if="!googleMapsLoaded">Loading Google Maps...</p>
       </div>
       <section v-if="selectedVenue" class="flex flex-col items-center gap-2">
         <BaseCard class="flex flex-col items-center gap-2 mb-0">
@@ -77,9 +79,48 @@ export default {
     return {
       selectedVenue: "",
       newVenueAdded: false,
+      googleMapsLoaded: false,
     };
   },
   methods: {
+    initializeAutocomplete() {
+      this.$nextTick(() => {
+        if (window.google && window.google.maps && window.google.maps.places) {
+          const inputElement = this.$refs.venueInput;
+          if (inputElement && inputElement instanceof HTMLInputElement) {
+            const venueAutocomplete = new google.maps.places.Autocomplete(
+              inputElement,
+              {
+                bounds: new google.maps.LatLngBounds(
+                  new google.maps.LatLng(48.14816, 17.10674)
+                ),
+                componentRestrictions: { country: "sk" },
+                types: ["bar", "cafe", "restaurant", "night_club"],
+              }
+            );
+            venueAutocomplete.addListener("place_changed", () => {
+              console.log(venueAutocomplete.getPlace());
+              this.selectedVenue = venueAutocomplete.getPlace();
+            });
+            this.googleMapsLoaded = true;
+          } else {
+            console.error("Venue input element not found");
+          }
+        } else {
+          console.error("Google Maps API not loaded");
+        }
+      });
+    },
+    checkGoogleMapsLoaded() {
+      if (window.google && window.google.maps && window.google.maps.places) {
+        this.initializeAutocomplete();
+        if (!this.googleMapsLoaded) {
+          setTimeout(this.checkGoogleMapsLoaded, 100);
+        }
+      } else {
+        setTimeout(this.checkGoogleMapsLoaded, 100);
+      }
+    },
     submitVenue() {
       try {
         const token = this.$store.getters.token;
@@ -113,20 +154,16 @@ export default {
       return this.$store.getters.userId;
     },
   },
-  mounted() {
-    const venueAutocomplete = new google.maps.places.Autocomplete(
-      this.$refs.venueInput,
-      {
-        bounds: new google.maps.LatLngBounds(
-          new google.maps.LatLng(48.14816, 17.10674)
-        ),
-        componentRestrictions: { country: "sk" },
-        types: ["bar", "cafe", "restaurant", "night_club"],
+  watch: {
+    googleMapsLoaded(newVal) {
+      if (newVal) {
+        this.initializeAutocomplete();
       }
-    );
-    venueAutocomplete.addListener("place_changed", () => {
-      console.log(venueAutocomplete.getPlace());
-      this.selectedVenue = venueAutocomplete.getPlace();
+    },
+  },
+  mounted() {
+    this.$nextTick(() => {
+      this.checkGoogleMapsLoaded();
     });
   },
 };
