@@ -1,17 +1,10 @@
 <template>
-  <router-link
-    to="/"
-    class="flex text-white transition-colors ease-in-out"
+  <button
+    class="py-1 px-2 border-2 border-black border-solid cursor-pointer rounded-3xl mr-2 bg-white text-xs"
     :class="hoverClasses"
   >
-    <div class="flex items-center p-2 gap-2">
-      <img src="@/assets/logo.svg" alt="logo" width="100" />
-      <p class="text-2xl font-bold">
-        Bratislavská <br />
-        Piváreň
-      </p>
-    </div>
-  </router-link>
+    <slot></slot>
+  </button>
 </template>
 
 <script>
@@ -24,7 +17,7 @@ export default {
   computed: {
     hoverClasses() {
       return this.isHoverEnabled
-        ? "hover:text-amber-100 hover:bg-white/10"
+        ? "hover:bg-amber-600 hover:text-white hover:border-white"
         : "";
     },
   },

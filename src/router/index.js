@@ -1,5 +1,5 @@
+import store from "@/store";
 import { createRouter, createWebHistory } from "vue-router";
-import HomeView from "../views/HomeView.vue";
 
 const routes = [
   {
@@ -19,18 +19,22 @@ const routes = [
   {
     path: "/venues",
     name: "venuesView",
+    meta: { requiresAuth: true },
     component: () =>
       import(/* webpackChunkName: "venuesView" */ "../views/VenuesView.vue"),
   },
   {
     path: "/venue/:id",
-    name: "VenueDetail",
+    name: "venueDetail",
+    meta: { requiresAuth: true },
     props: true,
     component: () =>
       import(/* webpackChunkName: "venueDetail" */ "../views/VenueDetail.vue"),
   },
   {
     path: "/auth",
+    name: "auth",
+    meta: { requiresUnauth: true },
     component: () =>
       import(/* webpackChunkName: "UserAuth" */ "../views/Auth/UserAuth.vue"),
   },
@@ -40,10 +44,20 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
-  scrollBehavior(from, to, savedPosition) {
+  scrollBehavior(_, _2, savedPosition) {
     if (savedPosition) return savedPosition;
     return { left: 0, top: 0 };
   },
+});
+
+router.beforeEach(function (to, _, next) {
+  if (to.meta.requiresAuth && !store.getters.isAuthenticated) {
+    next("/auth");
+  } else if (to.meta.requiresUnauth && store.getters.isAuthenticated) {
+    next("/venues");
+  } else {
+    next();
+  }
 });
 
 export default router;

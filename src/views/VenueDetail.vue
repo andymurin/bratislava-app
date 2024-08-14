@@ -9,7 +9,17 @@
       class="flex flex-col items-center gap-2 mb-0"
     >
       <h2 class="font-semibold text-xl">{{ shownVenue.name }}</h2>
-      <p>{{ shownVenue.type }}</p>
+      <p>
+        {{
+          shownVenue.type
+            .split("_")
+            .map(
+              (word) =>
+                word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+            )
+            .join(" ")
+        }}
+      </p>
       <p>{{ shownVenue.address }}</p>
       <div>
         <span v-if="!shownMore">
@@ -123,6 +133,9 @@ export default {
         (hours) => hours.open.day === this.currentDay
       );
     },
+    userId() {
+      return this.$store.getters.userId;
+    },
   },
   methods: {
     toggleShowMore() {
@@ -133,9 +146,11 @@ export default {
     },
     removeVenue() {
       try {
+        const token = this.$store.getters.token;
+
         axios
           .delete(
-            `https://bratislavska-pivaren-9bfe5-default-rtdb.europe-west1.firebasedatabase.app/venues/${this.shownVenue.id}.json`
+            `https://bratislavska-pivaren-9bfe5-default-rtdb.europe-west1.firebasedatabase.app/venues/${this.userId}/${this.shownVenue.id}.json?auth=${token}`
           )
           .then((res) => {
             if (res.statusText === "OK") {

@@ -43,9 +43,19 @@
             </span>
           </a>
         </BaseCard>
-        <BaseButton class="my-8 max-w-max h-full" @click="submitVenue">
+        <BaseButton
+          class="my-8 max-w-max h-full"
+          @click="submitVenue"
+          v-if="isLoggedIn"
+        >
           Add to favourites
         </BaseButton>
+        <p class="text-lg font-semibold py-3" v-else>
+          <RouterLink to="/auth?redirect=add-venue" class="text-amber-600">
+            Login
+          </RouterLink>
+          to add to favourites.
+        </p>
       </section>
     </div>
     <h2 class="font-semibold text-xl" v-if="newVenueAdded">
@@ -61,14 +71,8 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
-
 import axios from "axios";
-import InputText from "primevue/inputtext";
 export default {
-  components: {
-    InputText,
-  },
   data() {
     return {
       selectedVenue: "",
@@ -78,8 +82,10 @@ export default {
   methods: {
     submitVenue() {
       try {
+        const token = this.$store.getters.token;
+
         axios.put(
-          `https://bratislavska-pivaren-9bfe5-default-rtdb.europe-west1.firebasedatabase.app/venues/${this.selectedVenue.place_id}.json`,
+          `https://bratislavska-pivaren-9bfe5-default-rtdb.europe-west1.firebasedatabase.app/venues/${this.userId}/${this.selectedVenue.place_id}.json?auth=${token}`,
           {
             name: this.selectedVenue.name,
             address: this.selectedVenue.vicinity,
@@ -91,14 +97,20 @@ export default {
         );
         this.newVenueAdded = true;
         setTimeout(() => {
-          // this.selectedVenue = null;
-          // this.$refs.venueInput.value = "";
           this.newVenueAdded = false;
           this.$router.push(`/venue/${this.selectedVenue.place_id}`);
         }, 2000);
       } catch (err) {
         console.error("Something went went wrong.", err);
       }
+    },
+  },
+  computed: {
+    isLoggedIn() {
+      return this.$store.getters.isAuthenticated;
+    },
+    userId() {
+      return this.$store.getters.userId;
     },
   },
   mounted() {
