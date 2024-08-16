@@ -34,21 +34,29 @@
         again!
       </p>
       <div class="flex gap-8">
-        <BaseButton>{{ mode === "login" ? "Login" : "Signup" }}</BaseButton>
+        <BaseButton>{{ submitButtonText }}</BaseButton>
         <BaseButton
           @click.prevent="switchAuthMode"
           class="text-amber-600 border-amber-600"
         >
-          {{
-            mode === "login" ? "Signup instead" : "Login instead"
-          }}</BaseButton
-        >
+          {{ switchModeButtonText }}
+        </BaseButton>
       </div>
     </form>
   </BaseCard>
 </template>
 
 <script>
+const ERROR_MESSAGES = {
+  EMAIL_EXISTS:
+    "This email is already in use. Please try a different one or login.",
+  USER_DISABLED: "This account has been disabled. Please contact support.",
+  TOO_MANY_ATTEMPTS_TRY_LATER:
+    "Too many failed attempts. Please try again later.",
+  INVALID_LOGIN_CREDENTIALS: "Incorrect email or password. Please try again.",
+  DEFAULT: "An unexpected error occurred. Please try again.",
+};
+
 export default {
   data() {
     return {
@@ -59,6 +67,14 @@ export default {
       isLoading: false,
       error: null,
     };
+  },
+  computed: {
+    submitButtonText() {
+      return this.mode === "login" ? "Login" : "Signup";
+    },
+    switchModeButtonText() {
+      return this.mode === "login" ? "Signup instead" : "Login instead";
+    },
   },
   methods: {
     async submitForm() {
@@ -74,17 +90,10 @@ export default {
       this.isLoading = true;
 
       try {
-        if (this.mode === "login") {
-          await this.$store.dispatch("login", {
-            email: this.email,
-            password: this.password,
-          });
-        } else {
-          await this.$store.dispatch("signup", {
-            email: this.email,
-            password: this.password,
-          });
-        }
+        await this.$store.dispatch(this.mode, {
+          email: this.email,
+          password: this.password,
+        });
         const redirectUrl = "/" + (this.$route.query.redirect || "venues");
         this.$router.replace(redirectUrl);
       } catch (err) {
@@ -93,28 +102,21 @@ export default {
         this.isLoading = false;
       }
     },
-
     handleAuthError(error) {
       console.error("Authentication error:", error);
-
-      if (error.message.includes("EMAIL_EXISTS")) {
-        this.error =
-          "This email is already in use. Please try a different one or login.";
-      } else if (error.message.includes("USER_DISABLED")) {
-        this.error = "This account has been disabled. Please contact support.";
-      } else if (error.message.includes("TOO_MANY_ATTEMPTS_TRY_LATER")) {
-        this.error = "Too many failed attempts. Please try again later.";
-      } else if (error.message.includes("INVALID_LOGIN_CREDENTIALS")) {
-        this.error = "Incorrect email or password. Please try again.";
-      } else {
-        this.error =
-          error.message || "An unexpected error occurred. Please try again.";
+      const errorMessage = error.message;
+      for (const [key, message] of Object.entries(ERROR_MESSAGES)) {
+        if (errorMessage.includes(key)) {
+          this.error = message;
+          return;
+        }
       }
+      this.error = ERROR_MESSAGES.DEFAULT;
     },
-
     switchAuthMode() {
-      this.mode === "login" ? (this.mode = "signup") : (this.mode = "login");
+      this.mode = this.mode === "login" ? "signup" : "login";
       this.formIsValid = true;
+      this.error = null;
     },
     handleError() {
       this.error = null;

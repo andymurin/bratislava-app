@@ -27,16 +27,14 @@
 </template>
 
 <script>
+import { mapGetters, mapMutations } from "vuex";
+
 export default {
   methods: {
-    toggleMobileMenu() {
-      this.$store.commit("toggleMobileMenu");
-    },
+    ...mapMutations(["toggleMobileMenu"]),
   },
   computed: {
-    isMobileMenuActive() {
-      return this.$store.state.isMobileMenuActive;
-    },
+    ...mapGetters(["isMobileMenuActive"]),
   },
 };
 </script>

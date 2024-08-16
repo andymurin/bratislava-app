@@ -9,40 +9,15 @@
       class="flex flex-col items-center gap-2 mb-0"
     >
       <h2 class="font-semibold text-xl">{{ shownVenue.name }}</h2>
-      <p>
-        {{
-          shownVenue.type
-            .split("_")
-            .map(
-              (word) =>
-                word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
-            )
-            .join(" ")
-        }}
-      </p>
+      <p>{{ formattedVenueType }}</p>
       <p>{{ shownVenue.address }}</p>
       <div>
         <span v-if="!shownMore">
-          <p v-if="currentOpeningHours">
-            {{
-              `${daysStr[currentDay]}: ${currentOpeningHours.open.hours}:${
-                currentOpeningHours.open.minutes
-              }${currentOpeningHours.open.minutes === 0 ? "0" : ""} - ${
-                currentOpeningHours.close.hours
-              }:${currentOpeningHours.close.minutes}${
-                currentOpeningHours.close.minutes === 0 ? "0" : ""
-              }`
-            }}
-          </p>
-          <p v-else>{{ `${daysStr[currentDay]}: Closed` }}</p>
+          <p>{{ formattedCurrentOpeningHours }}</p>
         </span>
         <ul v-else>
-          <li v-for="hours in shownVenue.openingHours" :key="hours.open.day">
-            {{ daysStr[hours.open.day] }}: {{ hours.open.hours }}:{{
-              hours.open.minutes
-            }}{{ hours.open.minutes === 0 ? "0" : "" }} -
-            {{ hours.close.hours }}:{{ hours.close.minutes
-            }}{{ hours.close.minutes === 0 ? "0" : "" }}
+          <li v-for="i in 7" :key="i">
+            {{ formattedOpeningHours(i - 1) }}
           </li>
         </ul>
         <p
@@ -97,15 +72,21 @@
 </template>
 
 <script>
-import router from "@/router";
+import { mapGetters } from "vuex";
 import axios from "axios";
 
 export default {
-  props: ["id"],
+  name: "VenueDetail",
+  props: {
+    id: {
+      type: String,
+      required: true,
+    },
+  },
   data() {
     return {
       shownVenue: null,
-      currentDay: new Date().getDay(),
+      currentDay: (new Date().getDay() + 6) % 7,
       isVenueDeleted: false,
       isLoading: true,
       shownMore: false,
@@ -114,27 +95,33 @@ export default {
     };
   },
   computed: {
+    ...mapGetters(["userId", "token"]),
     iframeWidth() {
       return this.windowWidth > 450 ? 650 : 350;
     },
     daysStr() {
       return [
-        "Sunday",
         "Monday",
         "Tuesday",
         "Wednesday",
         "Thursday",
         "Friday",
         "Saturday",
+        "Sunday",
       ];
     },
-    currentOpeningHours() {
-      return this.shownVenue.openingHours.find(
-        (hours) => hours.open.day === this.currentDay
+    formattedVenueType() {
+      return (
+        this.shownVenue?.type
+          ?.split("_")
+          .map(
+            (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+          )
+          .join(" ") || "N/A"
       );
     },
-    userId() {
-      return this.$store.getters.userId;
+    formattedCurrentOpeningHours() {
+      return this.formattedOpeningHours(this.currentDay);
     },
   },
   methods: {
@@ -142,42 +129,54 @@ export default {
       this.shownMore = !this.shownMore;
     },
     onResize() {
-      this.windowHeight = window.innerHeight;
+      this.windowWidth = window.innerWidth;
     },
-    removeVenue() {
+    async removeVenue() {
       try {
-        const token = this.$store.getters.token;
-
-        axios
-          .delete(
-            `https://bratislavska-pivaren-9bfe5-default-rtdb.europe-west1.firebasedatabase.app/venues/${this.userId}/${this.shownVenue.id}.json?auth=${token}`
-          )
-          .then((res) => {
-            if (res.statusText === "OK") {
-              this.isVenueDeleted = true;
-              setTimeout(() => {
-                router.push("/venues");
-              }, 2000);
-            }
-          });
+        const response = await axios.delete(
+          `https://bratislavska-pivaren-9bfe5-default-rtdb.europe-west1.firebasedatabase.app/venues/${this.userId}/${this.shownVenue.id}.json?auth=${this.token}`
+        );
+        if (response.status === 200) {
+          this.isVenueDeleted = true;
+          setTimeout(() => this.$router.push("/venues"), 2000);
+        }
       } catch (err) {
-        console.error("Something went wrong.", err);
+        console.error("Error removing venue:", err);
+        // Handle error (e.g., show error message to user)
       }
     },
     async updateShownVenue() {
       this.isLoading = true;
-
       await this.$store.dispatch("fetchData");
-
       this.shownVenue = this.$store.state.venues.find(
         (venue) => venue.id === this.id
       );
       this.isLoading = false;
     },
-  },
-  async created() {
-    await this.updateShownVenue();
-    console.log("fetched");
+    formatTime(time) {
+      if (
+        !time ||
+        typeof time.hours === "undefined" ||
+        typeof time.minutes === "undefined"
+      ) {
+        return "N/A";
+      }
+      return `${time.hours}:${time.minutes.toString().padStart(2, "0")}`;
+    },
+    formattedOpeningHours(dayIndex) {
+      const day = this.daysStr[dayIndex];
+      const hours = this.shownVenue?.openingHours?.find(
+        (h) => (h.open?.day + 6) % 7 === dayIndex
+      );
+
+      if (!hours || !hours.open || !hours.close) {
+        return `${day}: Closed`;
+      }
+
+      return `${day}: ${this.formatTime(hours.open)} - ${this.formatTime(
+        hours.close
+      )}`;
+    },
   },
   watch: {
     id: {
@@ -186,12 +185,9 @@ export default {
     },
   },
   mounted() {
-    this.$nextTick(() => {
-      window.addEventListener("resize", this.onResize);
-    });
+    window.addEventListener("resize", this.onResize);
   },
-
-  beforeDestroy() {
+  beforeUnmount() {
     window.removeEventListener("resize", this.onResize);
   },
 };

@@ -5,18 +5,18 @@
 
 <script>
 import TheNavigation from "./components/TheNavigation.vue";
+import { mapGetters } from "vuex";
+
 export default {
   components: {
     TheNavigation,
   },
   computed: {
-    didAutoLogout() {
-      return this.$store.getters.didAutoLogout;
-    },
+    ...mapGetters(["didAutoLogout"]),
   },
   watch: {
-    didAutoLogout(curr, old) {
-      if (curr && curr !== old) {
+    didAutoLogout(newValue, oldValue) {
+      if (newValue && newValue !== oldValue) {
         this.$router.replace("/auth");
       }
     },
