@@ -93,7 +93,6 @@ export default {
         await this.fetchData();
       } catch (error) {
         console.error("Error fetching venues:", error);
-        // Handle error (e.g., show error message to user)
       } finally {
         this.isLoading = false;
       }

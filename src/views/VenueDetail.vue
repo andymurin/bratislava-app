@@ -142,7 +142,6 @@ export default {
         }
       } catch (err) {
         console.error("Error removing venue:", err);
-        // Handle error (e.g., show error message to user)
       }
     },
     async updateShownVenue() {
