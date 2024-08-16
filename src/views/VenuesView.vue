@@ -91,7 +91,6 @@ export default {
       try {
         this.isLoading = true;
         await this.fetchData();
-        console.log("Venues after fetch:", this.venuesList); // Debug log
       } catch (error) {
         console.error("Error fetching venues:", error);
         // Handle error (e.g., show error message to user)

@@ -99,7 +99,6 @@ export default {
               }
             );
             venueAutocomplete.addListener("place_changed", () => {
-              console.log(venueAutocomplete.getPlace());
               this.selectedVenue = venueAutocomplete.getPlace();
             });
             this.googleMapsLoaded = true;

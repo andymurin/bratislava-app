@@ -90,7 +90,6 @@ export default createStore({
         );
         const venues = response.data ? Object.values(response.data) : [];
         context.commit("setVenues", venues);
-        console.log("Fetched venues:", JSON.stringify(venues));
       } catch (err) {
         console.error("Error fetching venues: ", err);
         if (err.response && err.response.status === 401) {
