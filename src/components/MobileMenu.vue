@@ -8,6 +8,7 @@
       pathName="venuesView"
       label="Favourite venues"
       :mobile="true"
+      v-if="isLoggedIn"
     />
     <NavigationItem
       pathName="auth"

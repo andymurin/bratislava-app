@@ -8,7 +8,11 @@
 
     <div class="hidden flex-1 md:flex items-center justify-end">
       <NavigationItem pathName="addVenue" label="Find venue" />
-      <NavigationItem pathName="venuesView" label="Favourite venues" />
+      <NavigationItem
+        pathName="venuesView"
+        label="Favourite venues"
+        v-if="isLoggedIn"
+      />
       <NavigationItem
         pathName="auth"
         label="Login / Signup"
