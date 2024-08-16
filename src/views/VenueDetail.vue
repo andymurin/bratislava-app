@@ -91,7 +91,7 @@ export default {
       isLoading: true,
       shownMore: false,
       windowWidth: window.innerWidth,
-      apiKey: process.env.VUE_APP_GOOGLE_API_KEY,
+      apiKey: "AIzaSyBjf_vWS50mo0nqMnGDK-gvScDWSPpQQo8",
     };
   },
   computed: {
