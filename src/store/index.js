@@ -1,7 +1,7 @@
 import { createStore } from "vuex";
 import axios from "axios";
 
-const API_KEY = "AIzaSyAqJ49UDjdlgbIxpXTl-_x6Waok8yZ3VAM";
+const API_KEY = process.env.VUE_APP_FIREBASE_API_KEY;
 const AUTH_URL = "https://identitytoolkit.googleapis.com/v1/accounts:";
 const DB_URL =
   "https://bratislavska-pivaren-9bfe5-default-rtdb.europe-west1.firebasedatabase.app/venues/";

@@ -91,7 +91,7 @@ export default {
       isLoading: true,
       shownMore: false,
       windowWidth: window.innerWidth,
-      apiKey: "AIzaSyBjf_vWS50mo0nqMnGDK-gvScDWSPpQQo8",
+      apiKey: process.env.VUE_APP_API_KEY,
     };
   },
   computed: {
