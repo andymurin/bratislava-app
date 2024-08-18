@@ -5,16 +5,15 @@
       class="flex flex-col items-center gap-2"
     >
       <h1 class="text-2xl font-semibold mb-4">Find your favourite venue</h1>
-      <div class="flex flex-wrap justify-center border-solid">
-        <input
-          v-show="googleMapsLoaded"
-          class="border-black h-10 w-80 rounded-md border-solid border-spacing-4 border-2"
-          ref="venueInput"
-          type="text"
-          placeholder="Start typing..."
-        />
-        <p v-if="!googleMapsLoaded">Loading Google Maps...</p>
-      </div>
+      <input
+        v-show="googleMapsLoaded"
+        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
+        ref="venueInput"
+        type="text"
+        placeholder="Start typing..."
+      />
+      <p v-if="!googleMapsLoaded">Loading Google Maps...</p>
+
       <section v-if="selectedVenue" class="flex flex-col items-center gap-2">
         <BaseCard class="flex flex-col items-center gap-2 mb-0">
           <h2 class="font-semibold text-xl">
